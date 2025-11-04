@@ -10,4 +10,4 @@ def excluir_avaliacao(id_avaliacao):
 
 if __name__ == "__main__":
 
-    excluir_avaliacao(2)
+    excluir_avaliacao(1)
