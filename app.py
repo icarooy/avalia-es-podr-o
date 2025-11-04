@@ -13,7 +13,7 @@ cardapio = [
     "🍟 Batata frita",
     "🍔 Hambúrguer",
     "🍕 Pizza"
-    " 🧑 Alan",
+    "🧑 Alan",
 ]
 
 # Formulário para inserir avaliação
