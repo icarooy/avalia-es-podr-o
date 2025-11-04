@@ -34,4 +34,5 @@ else:
             if st.button("Remover", key=f"remover_{id}"):
                 remover_avaliacao(id)
                 st.warning(f"Avaliação '{nome_comida}' removida!")
-                st.experimental_rerun()
+                st.rerun()
+
