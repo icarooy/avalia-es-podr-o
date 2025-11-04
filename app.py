@@ -12,8 +12,8 @@ cardapio = [
     "🍝 Macarrão",
     "🍟 Batata frita",
     "🍔 Hambúrguer",
-    "🍕 Pizza"
-    "🧑 Alan",
+    "🍕 Pizza",
+    "🧑 Alan"
 ]
 
 # Formulário para inserir avaliação
