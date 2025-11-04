@@ -8,7 +8,7 @@ st.title("Avaliações do Podrão")
 # Cardápio fixo com emojis
 cardapio = [
     "🍚 Arroz",
-    "🫘 Feijão",
+    "🌱 Feijão",
     "🍝 Macarrão",
     "🍟 Batata frita",
     "🍔 Hambúrguer",
