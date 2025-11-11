@@ -22,8 +22,11 @@ with st.form("nova_avaliacao"):
     nota = st.number_input("Nota", min_value=0.0, max_value=10.0, step=0.1)
     enviar = st.form_submit_button("Salvar")
     if enviar:
-        inserir_avaliacao(nome, nota)
-        st.success(f"Avaliação de '{nome}' salva com sucesso!")
+        if nota > 0:  # só salva se a nota for maior que 0
+            inserir_avaliacao(nome, nota)
+            st.success(f"Avaliação de '{nome}' salva com sucesso!")
+        else:
+            st.warning("⚠️ Por favor, insira uma nota maior que 0 para salvar.")
 
 st.subheader("📋 Avaliações já feitas")
 
