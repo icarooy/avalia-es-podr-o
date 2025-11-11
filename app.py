@@ -26,7 +26,7 @@ with st.form("nova_avaliacao"):
             inserir_avaliacao(nome, nota)
             st.success(f"Avaliação de '{nome}' salva com sucesso!")
         else:
-            st.warning("⚠️ Por favor, insira uma nota maior que 0 para salvar.")
+            st.warning("⚠️ Por favor, insira uma nota entre 0.1 e 10 para salvar.")
 
 st.subheader("📋 Avaliações já feitas")
 
