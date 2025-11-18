@@ -3,11 +3,16 @@ from database import criar_tabela, inserir_avaliacao, listar_avaliacoes, remover
 
 criar_tabela()
 
-# 🎨 Estilo customizado com CSS
+# 🎨 Estilo customizado com CSS (fundo com foto esmaecida)
 st.markdown(
     """
     <style>
-    body {
+    /* Camada de fundo fixa */
+    .app-bg {
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        z-index: -1; /* fica atrás do conteúdo */
+        pointer-events: none;
         background: linear-gradient(
             rgba(0,0,0,0.6),
             rgba(0,0,0,0.6)
@@ -16,21 +21,13 @@ st.markdown(
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
-        color: #f5f5f5;
     }
 
-    [data-testid="stAppViewContainer"] {
-        background: transparent; /* deixa o body aparecer */
+    /* Deixa os containers transparentes para mostrar o fundo */
+    html, body, .stApp, [data-testid="stAppViewContainer"], .main, .block-container {
+        background: transparent !important;
     }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
 
-# 🎨 Estilo customizado com CSS
-st.markdown(
-    """
-    <style>
     /* Título animado RGB */
     .titulo {
         text-align: center;
@@ -49,18 +46,19 @@ st.markdown(
         100% { background-position: 0% 50%; }
     }
 
-    /* Card das avaliações */
+    /* Card das avaliações com efeito vidro */
     .card {
-        background-color: rgba(17,17,17,0.85);
+        background: rgba(17,17,17,0.65);
+        backdrop-filter: blur(6px);
         padding: 15px;
         border-radius: 12px;
         margin-bottom: 12px;
-        box-shadow: 2px 2px 12px rgba(255,255,255,0.05);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         transition: transform 0.2s;
         color: #f5f5f5;
     }
     .card:hover {
-        transform: scale(1.01);
+        transform: translateY(-2px);
     }
 
     /* Botão de remover estilizado */
@@ -102,6 +100,7 @@ st.markdown(
         100% { transform: scale(1); }
     }
     </style>
+    <div class="app-bg"></div>
     """,
     unsafe_allow_html=True
 )
