@@ -1,6 +1,5 @@
 import sqlite3
 
-# Criar tabela com campo avaliador
 def criar_tabela():
     conn = sqlite3.connect("avaliacoes.db")
     cursor = conn.cursor()
@@ -15,7 +14,6 @@ def criar_tabela():
     conn.commit()
     conn.close()
 
-# Inserir avaliação com avaliador
 def inserir_avaliacao(comida, nota, avaliador):
     conn = sqlite3.connect("avaliacoes.db")
     cursor = conn.cursor()
@@ -24,7 +22,6 @@ def inserir_avaliacao(comida, nota, avaliador):
     conn.commit()
     conn.close()
 
-# Listar avaliações (inclui avaliador)
 def listar_avaliacoes():
     conn = sqlite3.connect("avaliacoes.db")
     cursor = conn.cursor()
@@ -33,7 +30,6 @@ def listar_avaliacoes():
     conn.close()
     return avaliacoes
 
-# Remover avaliação
 def remover_avaliacao(id):
     conn = sqlite3.connect("avaliacoes.db")
     cursor = conn.cursor()
