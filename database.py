@@ -1,44 +1,42 @@
 import sqlite3
 
-# Função para conectar ao banco de dados
-def conectar():
-    return sqlite3.connect("podrao.db")
-
-# Criar a tabela caso não exista
+# Criar tabela com campo avaliador
 def criar_tabela():
-    con = conectar()
-    cur = con.cursor()
-    cur.execute("""
+    conn = sqlite3.connect("avaliacoes.db")
+    cursor = conn.cursor()
+    cursor.execute("""
         CREATE TABLE IF NOT EXISTS avaliacoes (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            nome_comida TEXT NOT NULL,
-            nota REAL NOT NULL
+            comida TEXT NOT NULL,
+            nota REAL NOT NULL,
+            avaliador TEXT NOT NULL
         )
     """)
-    con.commit()
-    con.close()
+    conn.commit()
+    conn.close()
 
-# Inserir uma nova avaliação
-def inserir_avaliacao(nome_comida, nota: float):
-    con = conectar()
-    cur = con.cursor()
-    cur.execute("INSERT INTO avaliacoes (nome_comida, nota) VALUES (?, ?)", (nome_comida, nota))
-    con.commit()
-    con.close()
+# Inserir avaliação com avaliador
+def inserir_avaliacao(comida, nota, avaliador):
+    conn = sqlite3.connect("avaliacoes.db")
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO avaliacoes (comida, nota, avaliador) VALUES (?, ?, ?)",
+                   (comida, nota, avaliador))
+    conn.commit()
+    conn.close()
 
-# Listar todas as avaliações
+# Listar avaliações (inclui avaliador)
 def listar_avaliacoes():
-    con = conectar()
-    cur = con.cursor()
-    cur.execute("SELECT * FROM avaliacoes")
-    dados = cur.fetchall()
-    con.close()
-    return dados
+    conn = sqlite3.connect("avaliacoes.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT id, comida, nota, avaliador FROM avaliacoes")
+    avaliacoes = cursor.fetchall()
+    conn.close()
+    return avaliacoes
 
-# Remover uma avaliação pelo ID
+# Remover avaliação
 def remover_avaliacao(id):
-    con = conectar()
-    cur = con.cursor()
-    cur.execute("DELETE FROM avaliacoes WHERE id = ?", (id,))
-    con.commit()
-    con.close()
+    conn = sqlite3.connect("avaliacoes.db")
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM avaliacoes WHERE id = ?", (id,))
+    conn.commit()
+    conn.close()

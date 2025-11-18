@@ -3,7 +3,7 @@ from database import criar_tabela, inserir_avaliacao, listar_avaliacoes, remover
 
 criar_tabela()
 
-st.title("Avaliações do Podrão")
+st.title("🍔 Avaliações do Podrão")
 
 # Cardápio fixo com emojis
 cardapio = [
@@ -18,13 +18,16 @@ cardapio = [
 
 # Formulário para inserir avaliação
 with st.form("nova_avaliacao"):
+    nome_avaliador = st.text_input("Seu nome (ou deixe em branco para ser anônimo)")
     nome = st.selectbox("Escolha um item do cardápio", cardapio)
     nota = st.number_input("Nota", min_value=0.0, max_value=10.0, step=0.1)
     enviar = st.form_submit_button("Salvar")
     if enviar:
-        if nota > 0:  # só salva se a nota for maior que 0
-            inserir_avaliacao(nome, nota)
-            st.success(f"Avaliação de '{nome}' salva com sucesso!")
+        if nota > 0:
+            if nome_avaliador.strip() == "":
+                nome_avaliador = "Anônimo"
+            inserir_avaliacao(nome, nota, nome_avaliador)  # agora salva também o avaliador
+            st.success(f"Avaliação de '{nome}' por {nome_avaliador} salva com sucesso!")
         else:
             st.warning("⚠️ Por favor, insira uma nota entre 0.1 e 10 para salvar.")
 
@@ -34,13 +37,15 @@ avaliacoes = listar_avaliacoes()
 if not avaliacoes:
     st.info("Nenhuma avaliação cadastrada ainda.")
 else:
-    for id, nome_comida, nota in avaliacoes:
-        col1, col2, col3 = st.columns([2, 2, 1])
+    for id, nome_comida, nota, avaliador in avaliacoes:  # listar também o avaliador
+        col1, col2, col3, col4 = st.columns([2, 2, 2, 1])
         with col1:
             st.write(f"**{nome_comida}**")
         with col2:
             st.write(f"Nota: {nota}")
         with col3:
+            st.write(f"Avaliador: {avaliador}")
+        with col4:
             if st.button("Remover", key=f"remover_{id}"):
                 remover_avaliacao(id)
                 st.warning(f"Avaliação '{nome_comida}' removida!")
