@@ -62,7 +62,7 @@ st.markdown(
 st.markdown("<h1 class='titulo'>🍔 Avaliações do Podrão 🍟</h1>", unsafe_allow_html=True)
 
 # Sidebar
-st.sidebar.title("📌 Menu")
+st.sidebar.title("📌 Bem vindo!")
 st.sidebar.info("Aqui você pode avaliar os pratos do cardápio e ver quem já avaliou!")
 
 # Cardápio fixo com emojis
