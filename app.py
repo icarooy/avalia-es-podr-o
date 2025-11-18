@@ -6,25 +6,26 @@ criar_tabela()
 # 🎨 Estilo customizado com CSS
 st.markdown(
     """
-    /* Aplica a imagem no fundo da aplicação inteira */
-[data-testid="stAppViewContainer"] {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-                      url("https://images.pexels.com/photos/1639561/pexels-photo-1639561.jpeg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
+    <style>
+    /* Fundo com imagem e overlay escuro */
+    [data-testid="stAppViewContainer"] {
+        background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                          url("https://images.pexels.com/photos/1639561/pexels-photo-1639561.jpeg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        color: #f5f5f5;
+    }
 
-/* Remove fundo da barra lateral para que a imagem apareça */
-[data-testid="stSidebar"] {
-    background: rgba(0, 0, 0, 0.8) !important;
-}
+    /* Remove fundo da barra lateral para que a imagem apareça */
+    [data-testid="stSidebar"] {
+        background: rgba(0, 0, 0, 0.85) !important;
+    }
 
-/* Remove fundo branco dos elementos dentro da página */
-.block-container {
-    background: transparent !important;
-}
-
+    /* Remove o fundo branco padrão dos elementos da página */
+    .block-container {
+        background-color: transparent !important;
+    }
 
     /* Título animado RGB */
     .titulo {
@@ -46,7 +47,7 @@ st.markdown(
 
     /* Card das avaliações */
     .card {
-        background-color: #111111;
+        background-color: rgba(17, 17, 17, 0.85);
         padding: 15px;
         border-radius: 12px;
         margin-bottom: 12px;
@@ -76,7 +77,6 @@ st.markdown(
         animation: fadeIn 1s ease;
         transition: all 0.3s ease;
     }
-    /* Remove o sombreado branco do selectbox */
     [data-testid="stSelectbox"] select:focus {
         outline: none !important;
         box-shadow: none !important;
