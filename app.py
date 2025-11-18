@@ -3,29 +3,14 @@ from database import criar_tabela, inserir_avaliacao, listar_avaliacoes, remover
 
 criar_tabela()
 
-# 🎨 Estilo customizado com CSS (fundo com foto esmaecida)
+# 🎨 Estilo customizado com CSS
 st.markdown(
     """
     <style>
-    /* Camada de fundo fixa */
-    .app-bg {
-        position: fixed;
-        top: 0; left: 0; right: 0; bottom: 0;
-        z-index: -1; /* fica atrás do conteúdo */
-        pointer-events: none;
-        background: linear-gradient(
-            rgba(0,0,0,0.6),
-            rgba(0,0,0,0.6)
-        ),
-        url("https://arkasnews.com/wp-content/uploads/2022/07/hamburger.jpg");
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
-    }
-
-    /* Deixa os containers transparentes para mostrar o fundo */
-    html, body, .stApp, [data-testid="stAppViewContainer"], .main, .block-container {
-        background: transparent !important;
+    /* Fundo preto total */
+    html, body, [data-testid="stAppViewContainer"] {
+        background-color: #000000;
+        color: #f5f5f5;
     }
 
     /* Título animado RGB */
@@ -46,19 +31,18 @@ st.markdown(
         100% { background-position: 0% 50%; }
     }
 
-    /* Card das avaliações com efeito vidro */
+    /* Card das avaliações */
     .card {
-        background: rgba(17,17,17,0.65);
-        backdrop-filter: blur(6px);
+        background-color: #111111;
         padding: 15px;
         border-radius: 12px;
         margin-bottom: 12px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        box-shadow: 2px 2px 12px rgba(255,255,255,0.05);
         transition: transform 0.2s;
         color: #f5f5f5;
     }
     .card:hover {
-        transform: translateY(-2px);
+        transform: scale(1.01);
     }
 
     /* Botão de remover estilizado */
@@ -79,6 +63,7 @@ st.markdown(
         animation: fadeIn 1s ease;
         transition: all 0.3s ease;
     }
+    /* Remove o sombreado branco do selectbox */
     [data-testid="stSelectbox"] select:focus {
         outline: none !important;
         box-shadow: none !important;
@@ -100,7 +85,6 @@ st.markdown(
         100% { transform: scale(1); }
     }
     </style>
-    <div class="app-bg"></div>
     """,
     unsafe_allow_html=True
 )
@@ -137,27 +121,34 @@ with st.form("nova_avaliacao"):
             if nome_avaliador.strip() == "":
                 nome_avaliador = "Anônimo"
 
+            # 🔒 Verificação de avaliações anteriores
             avaliacoes_existentes = listar_avaliacoes()
+
+            # Filtra só as do mesmo prato e mesmo avaliador
             avaliacoes_usuario = [
                 av_nota for _, av_nome, av_nota, av_avaliador in avaliacoes_existentes
                 if av_nome == nome and av_avaliador == nome_avaliador
             ]
 
             if avaliacoes_usuario:
+                # Se já existem avaliações, calcula a média incluindo a nova nota
                 soma = sum(avaliacoes_usuario) + nota
                 qtd = len(avaliacoes_usuario) + 1
                 media = soma / qtd
 
+                # Remove as antigas para não duplicar
                 for id, av_nome, av_nota, av_avaliador in avaliacoes_existentes:
                     if av_nome == nome and av_avaliador == nome_avaliador:
                         remover_avaliacao(id)
 
+                # Insere a média como nova avaliação
                 inserir_avaliacao(nome, media, nome_avaliador)
                 st.markdown(
                     f"<div class='success-anim'>✅ {nome_avaliador} já avaliou '{nome}'. Média atualizada para {media:.2f} ⭐</div>",
                     unsafe_allow_html=True
                 )
             else:
+                # Se não existe avaliação anterior, insere normalmente
                 inserir_avaliacao(nome, nota, nome_avaliador)
                 st.markdown(
                     f"<div class='success-anim'>✅ Avaliação de '{nome}' por {nome_avaliador} salva com sucesso!</div>",
