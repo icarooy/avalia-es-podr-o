@@ -8,35 +8,50 @@ st.markdown(
     """
     <style>
     /* Fundo geral */
-    body {
-        background-color: #f0f2f6;
+    html, body, [data-testid="stAppViewContainer"] {
+        background-color: #1e1e1e;
+        color: #f0f0f0;
     }
 
     /* Título animado */
     .titulo {
         text-align: center;
-        color: #FF5733;
+        color: #FFAA33;
         font-family: "Comic Sans MS", cursive;
         font-size: 50px;
         animation: glow 2s ease-in-out infinite alternate;
     }
 
     @keyframes glow {
-        from { text-shadow: 0 0 10px #ff5733; }
-        to { text-shadow: 0 0 20px #ffc300; }
+        from { text-shadow: 0 0 10px #ffaa33; }
+        to { text-shadow: 0 0 20px #ffdd55; }
     }
 
     /* Card das avaliações */
     .card {
-        background-color: #ffffff;
+        background-color: #2c2c2c;
         padding: 15px;
         border-radius: 12px;
         margin-bottom: 12px;
-        box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+        box-shadow: 2px 2px 8px rgba(0,0,0,0.5);
         transition: transform 0.2s;
+        color: #f0f0f0;
     }
     .card:hover {
         transform: scale(1.02);
+    }
+
+    /* Botão de remover estilizado */
+    .remove-button {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        font-size: 24px;
+        color: #ff4b4b;
+        transition: transform 0.2s;
+    }
+    .remove-button:hover {
+        transform: scale(1.3);
     }
     </style>
     """,
