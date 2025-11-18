@@ -1,83 +1,93 @@
 import streamlit as st
 from database import criar_tabela, inserir_avaliacao, listar_avaliacoes, remover_avaliacao
 
-# Configurações e tabelas
+# Configurações gerais
 criar_tabela()
 st.set_page_config(page_title="Avaliações do Podrão", page_icon="🍔")
 
-# 🎨 Estilo customizado
+# 🎨 Estilo customizado inspirado no Burger King
 CSS = """
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Orbitron:wght@400;700&display=swap');
+
 [data-testid="stAppViewContainer"] {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)),
-                      url("https://images.pexels.com/photos/70497/pexels-photo-70497.jpeg");
-	background-size: cover;
+    background-image: linear-gradient(rgba(20, 10, 0, 0.85), rgba(20, 10, 0, 0.85)),
+                      url("https://images.unsplash.com/photo-1586190848861-99aa4a171e90");
+    background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    color: #e6e6e6;
+    color: #fff3d4;
 }
 
 [data-testid="stSidebar"] {
-    background: rgba(0, 0, 0, 0.9) !important;
+    background: rgba(24, 8, 2, 0.95) !important;
 }
 
 .block-container {
-    background-color: transparent !important;
+    background-color: rgba(0, 0, 0, 0.3) !important;
+    border-radius: 12px;
+    padding-top: 20px;
 }
 
 .title {
     text-align: center;
-    font-family: 'Helvetica Neue', sans-serif;
-    font-size: 48px;
-    font-weight: 700;
-    color: #ffdd57;
+    font-family: 'Anton', sans-serif;
+    font-size: 62px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    color: #ffcc00;
+    text-shadow: 4px 4px 0px rgba(255, 0, 0, 0.5);
 }
 
 .card {
-    background-color: rgba(32, 32, 32, 0.92);
-    padding: 15px;
+    background-color: rgba(255, 112, 67, 0.15);
+    padding: 18px;
     border-radius: 15px;
     margin-bottom: 12px;
-    box-shadow: 2px 2px 15px rgba(0,0,0,0.8);
-    transition: transform 0.2s ease;
+    box-shadow: 5px 5px 20px rgba(255, 204, 0, 0.25);
+    border: 1px solid rgba(255, 160, 0, 0.5);
+    transition: transform 0.15s ease-in-out;
 }
 
 .card:hover {
-    transform: scale(1.02);
+    transform: scale(1.03);
+    box-shadow: 6px 6px 25px rgba(255, 160, 0, 0.35);
 }
 
 .remove-button {
     background-color: transparent;
     border: none;
     cursor: pointer;
-    font-size: 22px;
-    color: #ff4b4b;
-    transition: transform 0.2s;
+    font-size: 24px;
+    color: #ff6b6b;
+    transition: scale 0.2s ease;
 }
 
 .remove-button:hover {
-    transform: scale(1.2);
+    transform: scale(1.3);
+    color: red;
 }
 
 .success-anim {
-    color: #00ff88;
+    font-family: 'Orbitron', sans-serif;
+    color: #00ff99;
     font-weight: bold;
-    animation: fadeInOut 1.2s ease;
+    animation: fadeInOut 1.5s infinite ease;
 }
 
 @keyframes fadeInOut {
-    0% { opacity: 0.2; }
+    0% { opacity: 0.15; }
     50% { opacity: 1; }
-    100% { opacity: 0.2; }
+    100% { opacity: 0.15; }
 }
 </style>
 """
 st.markdown(CSS, unsafe_allow_html=True)
 
-# Título
-st.markdown("<h1 class='title'>Avaliações do Podrão</h1>", unsafe_allow_html=True)
+# Título principal
+st.markdown("<h1 class='title'>AVALIAÇÕES DO PODRÃO</h1>", unsafe_allow_html=True)
 
-# Ops gerais
+# Função para exibir avaliações
 def mostrar_avaliacoes():
     st.subheader("📋 Avaliações cadastradas")
     avaliacoes = listar_avaliacoes()
@@ -89,7 +99,7 @@ def mostrar_avaliacoes():
             with col1:
                 st.markdown(f"""
                     <div class='card'>
-                        <h3 style='margin:0;'>{nome_comida}</h3>
+                        <h3 style='margin: 0; font-family: Anton, sans-serif;'>{nome_comida}</h3>
                         <p style='margin:0;'>Nota: <b>{nota:.1f}</b> ⭐</p>
                         <p style='margin:0;'>Avaliador: {avaliador}</p>
                     </div>
@@ -101,13 +111,13 @@ def mostrar_avaliacoes():
                     st.rerun()
 
 # Sidebar
-st.sidebar.title("📌 Olá!")
-st.sidebar.info("Avalie os pratos do cardápio e veja o que já foi avaliado!")
+st.sidebar.title("🍔 Bem-vindo!")
+st.sidebar.info("Avalie os itens do cardápio e veja o que já foi avaliado!")
 
 # Cardápio
 cardapio = ["🍚 Arroz", "🌱 Feijão", "🍝 Macarrão", "🍟 Batata frita", "🍔 Hambúrguer", "🍕 Pizza", "🧑 Alan"]
 
-# Formulário
+# Formulário de avaliação
 with st.form("nova_avaliacao"):
     nome_avaliador = st.text_input("Seu nome (opcional)", placeholder="Anônimo")
     nome = st.radio("Escolha um item do cardápio", cardapio)
@@ -129,10 +139,10 @@ with st.form("nova_avaliacao"):
                     remover_avaliacao(av[0])
 
                 inserir_avaliacao(nome, nova_media, nome_avaliador)
-                st.markdown(f"<div class='success-anim'>🔄 {nome_avaliador} já avaliou '{nome}'. Média atualizada: {nova_media:.2f} ⭐</div>", unsafe_allow_html=True)
+                st.markdown(f"<div class='success-anim'>🔄 Avaliação atualizada! Nova média: {nova_media:.2f} ⭐</div>", unsafe_allow_html=True)
             else:
                 inserir_avaliacao(nome, nota, nome_avaliador)
-                st.markdown(f"<div class='success-anim'>✨ Avaliação de '{nome}' registrada com sucesso por {nome_avaliador}!</div>", unsafe_allow_html=True)
+                st.markdown(f"<div class='success-anim'>✨ Avaliação registrada com sucesso!</div>", unsafe_allow_html=True)
 
 # Mostrar avaliações
 mostrar_avaliacoes()
