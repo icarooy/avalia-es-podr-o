@@ -7,35 +7,35 @@ criar_tabela()
 st.markdown(
     """
     <style>
-    /* Fundo geral */
+    /* Fundo preto total */
     html, body, [data-testid="stAppViewContainer"] {
-        background-color: #1e1e1e;
-        color: #f0f0f0;
+        background-color: #000000;
+        color: #f5f5f5;
     }
 
     /* Título animado */
     .titulo {
         text-align: center;
-        color: #FFAA33;
+        color: #FFDD55;
         font-family: "Comic Sans MS", cursive;
         font-size: 50px;
         animation: glow 2s ease-in-out infinite alternate;
     }
 
     @keyframes glow {
-        from { text-shadow: 0 0 10px #ffaa33; }
-        to { text-shadow: 0 0 20px #ffdd55; }
+        from { text-shadow: 0 0 10px #ffdd55; }
+        to { text-shadow: 0 0 20px #ffaa33; }
     }
 
     /* Card das avaliações */
     .card {
-        background-color: #2c2c2c;
+        background-color: #111111;
         padding: 15px;
         border-radius: 12px;
         margin-bottom: 12px;
-        box-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+        box-shadow: 2px 2px 12px rgba(255,255,255,0.05);
         transition: transform 0.2s;
-        color: #f0f0f0;
+        color: #f5f5f5;
     }
     .card:hover {
         transform: scale(1.02);
@@ -57,7 +57,6 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
 # Letreiro estilizado
 st.markdown("<h1 class='titulo'>🍔 Avaliações do Podrão 🍟</h1>", unsafe_allow_html=True)
 
