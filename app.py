@@ -8,12 +8,12 @@ st.markdown(
     """
     <style>
     /* Fundo com imagem escurecida */
-    html, body, [data-testid="stAppViewContainer"] {
+    [data-testid="stAppViewContainer"] {
         background: linear-gradient(
             rgba(0,0,0,0.6),
             rgba(0,0,0,0.6)
         ),
-        url("https://arkasnews.com/wp-content/uploads/2022/07/hamburger.jpg"); /* exemplo: hambúrguer */
+        url("https://arkasnews.com/wp-content/uploads/2022/07/hamburger.jpg");
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
@@ -70,7 +70,6 @@ st.markdown(
         animation: fadeIn 1s ease;
         transition: all 0.3s ease;
     }
-    /* Remove o sombreado branco do selectbox */
     [data-testid="stSelectbox"] select:focus {
         outline: none !important;
         box-shadow: none !important;
@@ -128,10 +127,7 @@ with st.form("nova_avaliacao"):
             if nome_avaliador.strip() == "":
                 nome_avaliador = "Anônimo"
 
-            # 🔒 Verificação de avaliações anteriores
             avaliacoes_existentes = listar_avaliacoes()
-
-            # Filtra só as do mesmo prato e mesmo avaliador
             avaliacoes_usuario = [
                 av_nota for _, av_nome, av_nota, av_avaliador in avaliacoes_existentes
                 if av_nome == nome and av_avaliador == nome_avaliador
