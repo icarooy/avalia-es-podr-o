@@ -83,17 +83,21 @@ if not avaliacoes:
     st.info("Nenhuma avaliação cadastrada ainda.")
 else:
     for id, nome_comida, nota, avaliador in avaliacoes:
-        st.markdown(
-            f"""
-            <div class='card'>
-                <h3 style='margin:0;'>{nome_comida}</h3>
-                <p style='margin:0;'>Nota: <b>{nota}</b></p>
-                <p style='margin:0;'>Avaliador: {avaliador}</p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-        if st.button("Remover", key=f"remover_{id}"):
-            remover_avaliacao(id)
-            st.warning(f"Avaliação '{nome_comida}' removida!")
-            st.rerun()
+        col1, col2 = st.columns([5, 1])  # precisa estar dentro do for
+        with col1:
+            st.markdown(
+                f"""
+                <div class='card'>
+                    <h3 style='margin:0;'>{nome_comida}</h3>
+                    <p style='margin:0;'>Nota: <b>{nota}</b></p>
+                    <p style='margin:0;'>Avaliador: {avaliador}</p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+        with col2:
+            if st.button("🗑️", key=f"remover_{id}"):
+                remover_avaliacao(id)
+                st.warning(f"Avaliação '{nome_comida}' removida!")
+                st.rerun()
+
