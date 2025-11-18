@@ -63,11 +63,11 @@ st.markdown(
         animation: fadeIn 1s ease;
         transition: all 0.3s ease;
     }
-   /* Remove o sombreado branco do selectbox */
-[data-testid="stSelectbox"] select:focus {
-    outline: none !important;
-    box-shadow: none !important;
-}
+    /* Remove o sombreado branco do selectbox */
+    [data-testid="stSelectbox"] select:focus {
+        outline: none !important;
+        box-shadow: none !important;
+    }
     @keyframes fadeIn {
         from { opacity: 0; transform: translateY(-10px); }
         to { opacity: 1; transform: translateY(0); }
@@ -88,18 +88,18 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 # Letreiro estilizado
 st.markdown(
     "<h1><span>🍔</span> <span class='titulo'>Avaliações do Podrão</span> <span>🍟</span></h1>",
     unsafe_allow_html=True
 )
 
-
 # Sidebar
 st.sidebar.title("📌 Bem vindo!")
 st.sidebar.info("Aqui você pode avaliar os pratos do cardápio e ver quem já avaliou!")
 
-# Cardápio fixo com emojis
+# Cardápio fixo
 cardapio = [
     "🍚 Arroz",
     "🌱 Feijão",
@@ -120,11 +120,22 @@ with st.form("nova_avaliacao"):
         if nota > 0:
             if nome_avaliador.strip() == "":
                 nome_avaliador = "Anônimo"
-            inserir_avaliacao(nome, nota, nome_avaliador)
-            st.markdown(
-                f"<div class='success-anim'>✅ Avaliação de '{nome}' por {nome_avaliador} salva com sucesso!</div>",
-                unsafe_allow_html=True
+
+            # 🔒 Verificação de duplicata
+            avaliacoes_existentes = listar_avaliacoes()
+            duplicada = any(
+                (av_nome == nome and av_avaliador == nome_avaliador)
+                for _, av_nome, _, av_avaliador in avaliacoes_existentes
             )
+
+            if duplicada:
+                st.warning(f"⚠️ {nome_avaliador} já avaliou '{nome}'. Não é possível repetir a avaliação.")
+            else:
+                inserir_avaliacao(nome, nota, nome_avaliador)
+                st.markdown(
+                    f"<div class='success-anim'>✅ Avaliação de '{nome}' por {nome_avaliador} salva com sucesso!</div>",
+                    unsafe_allow_html=True
+                )
         else:
             st.warning("⚠️ Por favor, insira uma nota maior que 0 para salvar.")
 
@@ -152,4 +163,3 @@ else:
                 remover_avaliacao(id)
                 st.warning(f"Avaliação '{nome_comida}' removida!")
                 st.rerun()
-
