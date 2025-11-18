@@ -64,7 +64,11 @@ st.markdown(
     unsafe_allow_html=True
 )
 # Letreiro estilizado
-st.markdown("<h1 class='titulo'>🍔 Avaliações do Podrão 🍟</h1>", unsafe_allow_html=True)
+st.markdown(
+    "<h1><span>🍔</span> <span class='titulo'>Avaliações do Podrão</span> <span>🍟</span></h1>",
+    unsafe_allow_html=True
+)
+
 
 # Sidebar
 st.sidebar.title("📌 Bem vindo!")
