@@ -135,7 +135,7 @@ if not avaliacoes:
     st.info("Nenhuma avaliação cadastrada ainda.")
 else:
     for id, nome_comida, nota, avaliador in avaliacoes:
-        col1, col2 = st.columns([5, 1])  # precisa estar dentro do for
+        col1, col2 = st.columns([5, 1])
         with col1:
             st.markdown(
                 f"""
