@@ -7,9 +7,13 @@ criar_tabela()
 st.markdown(
     """
     <style>
-    /* Fundo preto total */
+    /* Fundo com imagem e overlay escuro */
     html, body, [data-testid="stAppViewContainer"] {
-        background-color: #000000;
+        background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                          url("https://images.pexels.com/photos/1639561/pexels-photo-1639561.jpeg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
         color: #f5f5f5;
     }
 
@@ -33,7 +37,7 @@ st.markdown(
 
     /* Card das avaliações */
     .card {
-        background-color: #111111;
+        background-color: rgba(17, 17, 17, 0.85);
         padding: 15px;
         border-radius: 12px;
         margin-bottom: 12px;
