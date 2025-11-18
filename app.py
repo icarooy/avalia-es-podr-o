@@ -77,7 +77,7 @@ st.markdown(
     .success-anim {
         color: #00ff88;
         font-weight: bold;
-        animation: popUp 0.8s ease;
+        animation: popUp 0.5s ease;
     }
     @keyframes popUp {
         0% { transform: scale(0.8); opacity: 0; }
