@@ -6,16 +6,25 @@ criar_tabela()
 # 🎨 Estilo customizado com CSS
 st.markdown(
     """
-    <style>
-    /* Fundo com imagem e overlay escuro */
-    html, body, [data-testid="stAppViewContainer"] {
-        background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
-                          url("https://images.pexels.com/photos/1639561/pexels-photo-1639561.jpeg");
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        color: #f5f5f5;
-    }
+    /* Aplica a imagem no fundo da aplicação inteira */
+[data-testid="stAppViewContainer"] {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                      url("https://images.pexels.com/photos/1639561/pexels-photo-1639561.jpeg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Remove fundo da barra lateral para que a imagem apareça */
+[data-testid="stSidebar"] {
+    background: rgba(0, 0, 0, 0.8) !important;
+}
+
+/* Remove fundo branco dos elementos dentro da página */
+.block-container {
+    background: transparent !important;
+}
+
 
     /* Título animado RGB */
     .titulo {
@@ -37,7 +46,7 @@ st.markdown(
 
     /* Card das avaliações */
     .card {
-        background-color: rgba(17, 17, 17, 0.85);
+        background-color: #111111;
         padding: 15px;
         border-radius: 12px;
         margin-bottom: 12px;
