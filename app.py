@@ -1,23 +1,50 @@
 import streamlit as st
-from streamlit_lottie import st_lottie
-import requests
 from database import criar_tabela, inserir_avaliacao, listar_avaliacoes, remover_avaliacao
-
-# Função para carregar animação Lottie
-def load_lottieurl(url: str):
-    r = requests.get(url)
-    if r.status_code != 200:
-        return None
-    return r.json()
 
 criar_tabela()
 
-# 🎨 Título animado
-st.markdown("<h1 style='text-align:center; color:#FF5733;'>🍔 Avaliações do Podrão 🍟</h1>", unsafe_allow_html=True)
+# 🎨 Estilo customizado com CSS
+st.markdown(
+    """
+    <style>
+    /* Fundo geral */
+    body {
+        background-color: #f0f2f6;
+    }
 
-# 🔥 Carregar animação Lottie (hambúrguer divertido)
-lottie_burger = load_lottieurl("https://assets9.lottiefiles.com/packages/lf20_1pxqjqps.json")
-st_lottie(lottie_burger, height=200, key="burger")
+    /* Título animado */
+    .titulo {
+        text-align: center;
+        color: #FF5733;
+        font-family: "Comic Sans MS", cursive;
+        font-size: 50px;
+        animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+        from { text-shadow: 0 0 10px #ff5733; }
+        to { text-shadow: 0 0 20px #ffc300; }
+    }
+
+    /* Card das avaliações */
+    .card {
+        background-color: #ffffff;
+        padding: 15px;
+        border-radius: 12px;
+        margin-bottom: 12px;
+        box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+        transition: transform 0.2s;
+    }
+    .card:hover {
+        transform: scale(1.02);
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+# Letreiro estilizado
+st.markdown("<h1 class='titulo'>🍔 Avaliações do Podrão 🍟</h1>", unsafe_allow_html=True)
 
 # Sidebar
 st.sidebar.title("📌 Menu")
@@ -58,8 +85,7 @@ else:
     for id, nome_comida, nota, avaliador in avaliacoes:
         st.markdown(
             f"""
-            <div style='background-color:#fff; padding:15px; border-radius:12px; margin-bottom:12px;
-                        box-shadow:2px 2px 8px rgba(0,0,0,0.1); transition:transform 0.2s;'>
+            <div class='card'>
                 <h3 style='margin:0;'>{nome_comida}</h3>
                 <p style='margin:0;'>Nota: <b>{nota}</b></p>
                 <p style='margin:0;'>Avaliador: {avaliador}</p>
