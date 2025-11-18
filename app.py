@@ -10,7 +10,7 @@ st.markdown(
     /* Fundo com imagem e overlay escuro */
     [data-testid="stAppViewContainer"] {
         background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-                          url("https://images.pexels.com/photos/1639561/pexels-photo-1639561.jpeg");
+                          url("https://images.pexels.com/photos/70497/pexels-photo-70497.jpeg");
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
