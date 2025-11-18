@@ -63,10 +63,11 @@ st.markdown(
         animation: fadeIn 1s ease;
         transition: all 0.3s ease;
     }
-    [data-testid="stSelectbox"]:hover {
-        transform: scale(1.02);
-        box-shadow: 0 0 10px rgba(255,255,255,0.3);
-    }
+   /* Remove o sombreado branco do selectbox */
+[data-testid="stSelectbox"] select:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
     @keyframes fadeIn {
         from { opacity: 0; transform: translateY(-10px); }
         to { opacity: 1; transform: translateY(0); }
