@@ -1,196 +1,138 @@
 import streamlit as st
 from database import criar_tabela, inserir_avaliacao, listar_avaliacoes, remover_avaliacao
 
+# Configurações e tabelas
 criar_tabela()
+st.set_page_config(page_title="Avaliações do Podrão", page_icon="🍔")
 
-# 🎨 Estilo customizado com CSS
-st.markdown(
-    """
-    <style>
-    /* Fundo com imagem e overlay escuro */
-    [data-testid="stAppViewContainer"] {
-        background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-                          url("https://images.pexels.com/photos/70497/pexels-photo-70497.jpeg");
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        color: #f5f5f5;
-    }
+# 🎨 Estilo customizado
+CSS = """
+<style>
+[data-testid="stAppViewContainer"] {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)),
+                      url("https://images.pexels.com/photos/70497/pexels-photo-70497.jpeg");
+	background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: #e6e6e6;
+}
 
-    /* Remove fundo da barra lateral para que a imagem apareça */
-    [data-testid="stSidebar"] {
-        background: rgba(0, 0, 0, 0.85) !important;
-    }
+[data-testid="stSidebar"] {
+    background: rgba(0, 0, 0, 0.9) !important;
+}
 
-    /* Remove o fundo branco padrão dos elementos da página */
-    .block-container {
-        background-color: transparent !important;
-    }
+.block-container {
+    background-color: transparent !important;
+}
 
-    /* Título animado RGB */
-    .titulo {
-        text-align: center;
-        font-family: "Comic Sans MS", cursive;
-        font-size: 50px;
-        font-weight: bold;
-        background: linear-gradient(270deg, red, orange, yellow, green, cyan, blue, violet);
-        background-size: 1400% 1400%;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: rgbShift 8s ease infinite;
-    }
-    @keyframes rgbShift {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-    }
+.title {
+    text-align: center;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 48px;
+    font-weight: 700;
+    color: #ffdd57;
+}
 
-    /* Card das avaliações */
-    .card {
-        background-color: rgba(17, 17, 17, 0.85);
-        padding: 15px;
-        border-radius: 12px;
-        margin-bottom: 12px;
-        box-shadow: 2px 2px 12px rgba(255,255,255,0.05);
-        transition: transform 0.2s;
-        color: #f5f5f5;
-    }
-    .card:hover {
-        transform: scale(1.01);
-    }
+.card {
+    background-color: rgba(32, 32, 32, 0.92);
+    padding: 15px;
+    border-radius: 15px;
+    margin-bottom: 12px;
+    box-shadow: 2px 2px 15px rgba(0,0,0,0.8);
+    transition: transform 0.2s ease;
+}
 
-    /* Botão de remover estilizado */
-    .remove-button {
-        background-color: transparent;
-        border: none;
-        cursor: pointer;
-        font-size: 24px;
-        color: #ff4b4b;
-        transition: transform 0.2s;
-    }
-    .remove-button:hover {
-        transform: scale(1.2);
-    }
+.card:hover {
+    transform: scale(1.02);
+}
 
-    /* Selectbox animado */
-    [data-testid="stSelectbox"] {
-        animation: fadeIn 1s ease;
-        transition: all 0.3s ease;
-    }
-    [data-testid="stSelectbox"] select:focus {
-        outline: none !important;
-        box-shadow: none !important;
-    }
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(-10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
+.remove-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 22px;
+    color: #ff4b4b;
+    transition: transform 0.2s;
+}
 
-    /* Mensagem de sucesso animada */
-    .success-anim {
-        color: #00ff88;
-        font-weight: bold;
-        animation: popUp 0.5s ease;
-    }
-    @keyframes popUp {
-        0% { transform: scale(0.8); opacity: 0; }
-        50% { transform: scale(1.1); opacity: 1; }
-        100% { transform: scale(1); }
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+.remove-button:hover {
+    transform: scale(1.2);
+}
 
-# Letreiro estilizado
-st.markdown(
-    "<h1><span>🍔</span> <span class='titulo'>Avaliações do Podrão</span> <span>🍟</span></h1>",
-    unsafe_allow_html=True
-)
+.success-anim {
+    color: #00ff88;
+    font-weight: bold;
+    animation: fadeInOut 1.2s ease;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0.2; }
+    50% { opacity: 1; }
+    100% { opacity: 0.2; }
+}
+</style>
+"""
+st.markdown(CSS, unsafe_allow_html=True)
+
+# Título
+st.markdown("<h1 class='title'>Avaliações do Podrão</h1>", unsafe_allow_html=True)
+
+# Ops gerais
+def mostrar_avaliacoes():
+    st.subheader("📋 Avaliações cadastradas")
+    avaliacoes = listar_avaliacoes()
+    if not avaliacoes:
+        st.info("Nenhuma avaliação cadastrada ainda.")
+    else:
+        for id, nome_comida, nota, avaliador in avaliacoes:
+            col1, col2 = st.columns([5, 1])
+            with col1:
+                st.markdown(f"""
+                    <div class='card'>
+                        <h3 style='margin:0;'>{nome_comida}</h3>
+                        <p style='margin:0;'>Nota: <b>{nota:.1f}</b> ⭐</p>
+                        <p style='margin:0;'>Avaliador: {avaliador}</p>
+                    </div>
+                """, unsafe_allow_html=True)
+            with col2:
+                if st.button("🗑️", key=f"remover_{id}"):
+                    remover_avaliacao(id)
+                    st.warning(f"Avaliação de '{nome_comida}' removida!")
+                    st.rerun()
 
 # Sidebar
-st.sidebar.title("📌 Bem vindo!")
-st.sidebar.info("Aqui você pode avaliar os pratos do cardápio e ver quem já avaliou!")
+st.sidebar.title("📌 Olá!")
+st.sidebar.info("Avalie os pratos do cardápio e veja o que já foi avaliado!")
 
-# Cardápio fixo
-cardapio = [
-    "🍚 Arroz",
-    "🌱 Feijão",
-    "🍝 Macarrão",
-    "🍟 Batata frita",
-    "🍔 Hambúrguer",
-    "🍕 Pizza",
-    "🧑 Alan"
-]
+# Cardápio
+cardapio = ["🍚 Arroz", "🌱 Feijão", "🍝 Macarrão", "🍟 Batata frita", "🍔 Hambúrguer", "🍕 Pizza", "🧑 Alan"]
 
-# Formulário para inserir avaliação
+# Formulário
 with st.form("nova_avaliacao"):
-    nome_avaliador = st.text_input("Seu nome (ou deixe em branco para ser anônimo)")
+    nome_avaliador = st.text_input("Seu nome (opcional)", placeholder="Anônimo")
     nome = st.radio("Escolha um item do cardápio", cardapio)
     nota = st.number_input("Nota", min_value=0.0, max_value=10.0, step=0.1)
-    enviar = st.form_submit_button("Salvar")
+    enviar = st.form_submit_button("Salvar avaliação")
+
     if enviar:
-        if nota > 0:
-            if nome_avaliador.strip() == "":
-                nome_avaliador = "Anônimo"
-
-            # 🔒 Verificação de avaliações anteriores
-            avaliacoes_existentes = listar_avaliacoes()
-
-            # Filtra só as do mesmo prato e mesmo avaliador
-            avaliacoes_usuario = [
-                av_nota for _, av_nome, av_nota, av_avaliador in avaliacoes_existentes
-                if av_nome == nome and av_avaliador == nome_avaliador
-            ]
-
-            if avaliacoes_usuario:
-                # Se já existem avaliações, calcula a média incluindo a nova nota
-                soma = sum(avaliacoes_usuario) + nota
-                qtd = len(avaliacoes_usuario) + 1
-                media = soma / qtd
-
-                # Remove as antigas para não duplicar
-                for id, av_nome, av_nota, av_avaliador in avaliacoes_existentes:
-                    if av_nome == nome and av_avaliador == nome_avaliador:
-                        remover_avaliacao(id)
-
-                # Insere a média como nova avaliação
-                inserir_avaliacao(nome, media, nome_avaliador)
-                st.markdown(
-                    f"<div class='success-anim'>✅ {nome_avaliador} já avaliou '{nome}'. Média atualizada para {media:.2f} ⭐</div>",
-                    unsafe_allow_html=True
-                )
-            else:
-                # Se não existe avaliação anterior, insere normalmente
-                inserir_avaliacao(nome, nota, nome_avaliador)
-                st.markdown(
-                    f"<div class='success-anim'>✅ Avaliação de '{nome}' por {nome_avaliador} salva com sucesso!</div>",
-                    unsafe_allow_html=True
-                )
+        nome_avaliador = nome_avaliador.strip() if nome_avaliador.strip() else "Anônimo"
+        if nota <= 0:
+            st.warning("⚠️ Por favor, insira uma nota maior que 0.")
         else:
-            st.warning("⚠️ Por favor, insira uma nota maior que 0 para salvar.")
+            avaliacoes = listar_avaliacoes()
+            existentes = [av for av in avaliacoes if av[1] == nome and av[3] == nome_avaliador]
+            
+            if existentes:
+                notas_previas = [av[2] for av in existentes]
+                nova_media = (sum(notas_previas) + nota) / (len(notas_previas) + 1)
+                for av in existentes:
+                    remover_avaliacao(av[0])
 
-st.subheader("📋 Avaliações já feitas")
+                inserir_avaliacao(nome, nova_media, nome_avaliador)
+                st.markdown(f"<div class='success-anim'>🔄 {nome_avaliador} já avaliou '{nome}'. Média atualizada: {nova_media:.2f} ⭐</div>", unsafe_allow_html=True)
+            else:
+                inserir_avaliacao(nome, nota, nome_avaliador)
+                st.markdown(f"<div class='success-anim'>✨ Avaliação de '{nome}' registrada com sucesso por {nome_avaliador}!</div>", unsafe_allow_html=True)
 
-avaliacoes = listar_avaliacoes()
-if not avaliacoes:
-    st.info("Nenhuma avaliação cadastrada ainda.")
-else:
-    for id, nome_comida, nota, avaliador in avaliacoes:
-        col1, col2 = st.columns([5, 1])
-        with col1:
-            st.markdown(
-                f"""
-                <div class='card'>
-                    <h3 style='margin:0;'>{nome_comida}</h3>
-                    <p style='margin:0;'>Nota: <b>{nota:.2f}</b></p>
-                    <p style='margin:0;'>Avaliador: {avaliador}</p>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
-        with col2:
-            if st.button("🗑️", key=f"remover_{id}"):
-                remover_avaliacao(id)
-                st.warning(f"Avaliação '{nome_comida}' removida!")
-                st.rerun()
+# Mostrar avaliações
+mostrar_avaliacoes()
