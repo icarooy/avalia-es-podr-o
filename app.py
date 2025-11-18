@@ -14,18 +14,19 @@ st.markdown(
     }
 
     /* Título animado */
-    .titulo {
-        text-align: center;
-        color: #FFDD55;
-        font-family: "Comic Sans MS", cursive;
-        font-size: 50px;
-        animation: glow 2s ease-in-out infinite alternate;
-    }
+    /* Título animado */
+.titulo {
+    text-align: center;
+    color: #FFDD55;
+    font-family: "Comic Sans MS", cursive;
+    font-size: 50px;
+    animation: glow 2s ease-in-out infinite alternate;
+}
 
-    @keyframes glow {
-        from { text-shadow: 0 0 10px #ffdd55; }
-        to { text-shadow: 0 0 20px #ffaa33; }
-    }
+@keyframes glow {
+    from { text-shadow: 0 0 10px #ffdd55; }
+    to { text-shadow: 0 0 20px #ffaa33; }
+}
 
     /* Card das avaliações */
     .card {
