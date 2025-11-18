@@ -42,7 +42,7 @@ st.markdown(
         color: #f5f5f5;
     }
     .card:hover {
-        transform: scale(1.02);
+        transform: scale(1.0005);
     }
 
     /* Botão de remover estilizado */
@@ -55,7 +55,7 @@ st.markdown(
         transition: transform 0.2s;
     }
     .remove-button:hover {
-        transform: scale(1.3);
+        transform: scale(1.2);
     }
 
     /* Selectbox animado */
@@ -64,7 +64,7 @@ st.markdown(
         transition: all 0.3s ease;
     }
     [data-testid="stSelectbox"]:hover {
-        transform: scale(1.05);
+        transform: scale(1.02);
         box-shadow: 0 0 10px rgba(255,255,255,0.3);
     }
     @keyframes fadeIn {
