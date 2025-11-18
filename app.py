@@ -113,7 +113,7 @@ cardapio = [
 # Formulário para inserir avaliação
 with st.form("nova_avaliacao"):
     nome_avaliador = st.text_input("Seu nome (ou deixe em branco para ser anônimo)")
-    nome = st.selectbox("Escolha um item do cardápio", cardapio)
+    nome = st.radio("Escolha um item do cardápio", cardapio)
     nota = st.number_input("Nota", min_value=0.0, max_value=10.0, step=0.1)
     enviar = st.form_submit_button("Salvar")
     if enviar:
