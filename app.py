@@ -121,16 +121,34 @@ with st.form("nova_avaliacao"):
             if nome_avaliador.strip() == "":
                 nome_avaliador = "Anônimo"
 
-            # 🔒 Verificação de duplicata
+            # 🔒 Verificação de avaliações anteriores
             avaliacoes_existentes = listar_avaliacoes()
-            duplicada = any(
-                (av_nome == nome and av_avaliador == nome_avaliador)
-                for _, av_nome, _, av_avaliador in avaliacoes_existentes
-            )
 
-            if duplicada:
-                st.warning(f"⚠️ {nome_avaliador} já avaliou '{nome}'. Não é possível repetir a avaliação.")
+            # Filtra só as do mesmo prato e mesmo avaliador
+            avaliacoes_usuario = [
+                av_nota for _, av_nome, av_nota, av_avaliador in avaliacoes_existentes
+                if av_nome == nome and av_avaliador == nome_avaliador
+            ]
+
+            if avaliacoes_usuario:
+                # Se já existem avaliações, calcula a média incluindo a nova nota
+                soma = sum(avaliacoes_usuario) + nota
+                qtd = len(avaliacoes_usuario) + 1
+                media = soma / qtd
+
+                # Remove as antigas para não duplicar
+                for id, av_nome, av_nota, av_avaliador in avaliacoes_existentes:
+                    if av_nome == nome and av_avaliador == nome_avaliador:
+                        remover_avaliacao(id)
+
+                # Insere a média como nova avaliação
+                inserir_avaliacao(nome, media, nome_avaliador)
+                st.markdown(
+                    f"<div class='success-anim'>✅ {nome_avaliador} já avaliou '{nome}'. Média atualizada para {media:.2f} ⭐</div>",
+                    unsafe_allow_html=True
+                )
             else:
+                # Se não existe avaliação anterior, insere normalmente
                 inserir_avaliacao(nome, nota, nome_avaliador)
                 st.markdown(
                     f"<div class='success-anim'>✅ Avaliação de '{nome}' por {nome_avaliador} salva com sucesso!</div>",
@@ -152,7 +170,7 @@ else:
                 f"""
                 <div class='card'>
                     <h3 style='margin:0;'>{nome_comida}</h3>
-                    <p style='margin:0;'>Nota: <b>{nota}</b></p>
+                    <p style='margin:0;'>Nota: <b>{nota:.2f}</b></p>
                     <p style='margin:0;'>Avaliador: {avaliador}</p>
                 </div>
                 """,
