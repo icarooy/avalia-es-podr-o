@@ -7,9 +7,16 @@ criar_tabela()
 st.markdown(
     """
     <style>
-    /* Fundo preto total */
+    /* Fundo com imagem escurecida */
     html, body, [data-testid="stAppViewContainer"] {
-        background-color: #000000;
+        background: linear-gradient(
+            rgba(0,0,0,0.6),
+            rgba(0,0,0,0.6)
+        ),
+        url("https://arkasnews.com/wp-content/uploads/2022/07/hamburger.jpg"); /* exemplo: hambúrguer */
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
         color: #f5f5f5;
     }
 
@@ -33,7 +40,7 @@ st.markdown(
 
     /* Card das avaliações */
     .card {
-        background-color: #111111;
+        background-color: rgba(17,17,17,0.85);
         padding: 15px;
         border-radius: 12px;
         margin-bottom: 12px;
@@ -131,24 +138,20 @@ with st.form("nova_avaliacao"):
             ]
 
             if avaliacoes_usuario:
-                # Se já existem avaliações, calcula a média incluindo a nova nota
                 soma = sum(avaliacoes_usuario) + nota
                 qtd = len(avaliacoes_usuario) + 1
                 media = soma / qtd
 
-                # Remove as antigas para não duplicar
                 for id, av_nome, av_nota, av_avaliador in avaliacoes_existentes:
                     if av_nome == nome and av_avaliador == nome_avaliador:
                         remover_avaliacao(id)
 
-                # Insere a média como nova avaliação
                 inserir_avaliacao(nome, media, nome_avaliador)
                 st.markdown(
                     f"<div class='success-anim'>✅ {nome_avaliador} já avaliou '{nome}'. Média atualizada para {media:.2f} ⭐</div>",
                     unsafe_allow_html=True
                 )
             else:
-                # Se não existe avaliação anterior, insere normalmente
                 inserir_avaliacao(nome, nota, nome_avaliador)
                 st.markdown(
                     f"<div class='success-anim'>✅ Avaliação de '{nome}' por {nome_avaliador} salva com sucesso!</div>",
