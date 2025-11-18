@@ -13,25 +13,23 @@ st.markdown(
         color: #f5f5f5;
     }
 
-    /* Título animado */
-    /* Título animado */
-.titulo {
-    text-align: center;
-    font-family: "Comic Sans MS", cursive;
-    font-size: 50px;
-    font-weight: bold;
-    background: linear-gradient(270deg, red, orange, yellow, green, cyan, blue, violet);
-    background-size: 1400% 1400%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: rgbShift 8s ease infinite;
-}
-
-@keyframes rgbShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
+    /* Título animado RGB */
+    .titulo {
+        text-align: center;
+        font-family: "Comic Sans MS", cursive;
+        font-size: 50px;
+        font-weight: bold;
+        background: linear-gradient(270deg, red, orange, yellow, green, cyan, blue, violet);
+        background-size: 1400% 1400%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: rgbShift 8s ease infinite;
+    }
+    @keyframes rgbShift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
 
     /* Card das avaliações */
     .card {
@@ -58,6 +56,32 @@ st.markdown(
     }
     .remove-button:hover {
         transform: scale(1.3);
+    }
+
+    /* Selectbox animado */
+    [data-testid="stSelectbox"] {
+        animation: fadeIn 1s ease;
+        transition: all 0.3s ease;
+    }
+    [data-testid="stSelectbox"]:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 10px rgba(255,255,255,0.3);
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Mensagem de sucesso animada */
+    .success-anim {
+        color: #00ff88;
+        font-weight: bold;
+        animation: popUp 0.8s ease;
+    }
+    @keyframes popUp {
+        0% { transform: scale(0.8); opacity: 0; }
+        50% { transform: scale(1.1); opacity: 1; }
+        100% { transform: scale(1); }
     }
     </style>
     """,
@@ -96,7 +120,10 @@ with st.form("nova_avaliacao"):
             if nome_avaliador.strip() == "":
                 nome_avaliador = "Anônimo"
             inserir_avaliacao(nome, nota, nome_avaliador)
-            st.success(f"Avaliação de '{nome}' por {nome_avaliador} salva com sucesso!")
+            st.markdown(
+                f"<div class='success-anim'>✅ Avaliação de '{nome}' por {nome_avaliador} salva com sucesso!</div>",
+                unsafe_allow_html=True
+            )
         else:
             st.warning("⚠️ Por favor, insira uma nota maior que 0 para salvar.")
 
