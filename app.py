@@ -7,8 +7,7 @@ criar_tabela()
 st.markdown(
     """
     <style>
-    /* Fundo com imagem escurecida */
-    [data-testid="stAppViewContainer"] {
+    body {
         background: linear-gradient(
             rgba(0,0,0,0.6),
             rgba(0,0,0,0.6)
@@ -20,6 +19,18 @@ st.markdown(
         color: #f5f5f5;
     }
 
+    [data-testid="stAppViewContainer"] {
+        background: transparent; /* deixa o body aparecer */
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+# 🎨 Estilo customizado com CSS
+st.markdown(
+    """
+    <style>
     /* Título animado RGB */
     .titulo {
         text-align: center;
