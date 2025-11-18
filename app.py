@@ -42,7 +42,7 @@ st.markdown(
         color: #f5f5f5;
     }
     .card:hover {
-        transform: scale(1.0005);
+        transform: scale(1.01);
     }
 
     /* Botão de remover estilizado */
