@@ -13,32 +13,42 @@ st.markdown(
         color: #f5f5f5;
     }
 
-    /* Título animado */
+    /* Título animado com desfoque */
     .titulo {
         text-align: center;
         color: #FFDD55;
         font-family: "Comic Sans MS", cursive;
         font-size: 50px;
-        animation: glow 2s ease-in-out infinite alternate;
+        animation: pulse 2s infinite;
+        backdrop-filter: blur(4px);
+        background-color: rgba(255, 255, 255, 0.05);
+        padding: 10px;
+        border-radius: 12px;
     }
 
-    @keyframes glow {
-        from { text-shadow: 0 0 10px #ffdd55; }
-        to { text-shadow: 0 0 20px #ffaa33; }
+    @keyframes pulse {
+        0% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.05); opacity: 0.8; }
+        100% { transform: scale(1); opacity: 1; }
     }
 
-    /* Card das avaliações */
+    /* Card das avaliações com brilho pulsante e fundo desfocado */
     .card {
-        background-color: #111111;
+        background-color: rgba(17, 17, 17, 0.6);
+        backdrop-filter: blur(6px);
         padding: 15px;
         border-radius: 12px;
         margin-bottom: 12px;
-        box-shadow: 2px 2px 12px rgba(255,255,255,0.05);
+        box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
         transition: transform 0.2s;
         color: #f5f5f5;
+        animation: pulseCard 3s infinite;
     }
-    .card:hover {
-        transform: scale(1.02);
+
+    @keyframes pulseCard {
+        0% { box-shadow: 0 0 10px rgba(255,255,255,0.1); }
+        50% { box-shadow: 0 0 20px rgba(255,255,255,0.3); }
+        100% { box-shadow: 0 0 10px rgba(255,255,255,0.1); }
     }
 
     /* Botão de remover estilizado */
@@ -52,6 +62,18 @@ st.markdown(
     }
     .remove-button:hover {
         transform: scale(1.3);
+    }
+
+    /* Sidebar escura */
+    [data-testid="stSidebar"] {
+        background-color: #000000;
+        color: #f5f5f5;
+    }
+    [data-testid="stSidebar"] h1,
+    [data-testid="stSidebar"] h2,
+    [data-testid="stSidebar"] h3,
+    [data-testid="stSidebar"] p {
+        color: #f5f5f5;
     }
     </style>
     """,
