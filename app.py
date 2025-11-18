@@ -7,48 +7,38 @@ criar_tabela()
 st.markdown(
     """
     <style>
-    /* Fundo preto total */
+    /* Fundo geral */
     html, body, [data-testid="stAppViewContainer"] {
-        background-color: #000000;
-        color: #f5f5f5;
+        background-color: #1e1e1e;
+        color: #f0f0f0;
     }
 
-    /* Título animado com desfoque */
+    /* Título animado */
     .titulo {
         text-align: center;
-        color: #FFDD55;
+        color: #FFAA33;
         font-family: "Comic Sans MS", cursive;
         font-size: 50px;
-        animation: pulse 2s infinite;
-        backdrop-filter: blur(4px);
-        background-color: rgba(255, 255, 255, 0.05);
-        padding: 10px;
-        border-radius: 12px;
+        animation: glow 2s ease-in-out infinite alternate;
     }
 
-    @keyframes pulse {
-        0% { transform: scale(1); opacity: 1; }
-        50% { transform: scale(1.05); opacity: 0.8; }
-        100% { transform: scale(1); opacity: 1; }
+    @keyframes glow {
+        from { text-shadow: 0 0 10px #ffaa33; }
+        to { text-shadow: 0 0 20px #ffdd55; }
     }
 
-    /* Card das avaliações com brilho pulsante e fundo desfocado */
+    /* Card das avaliações */
     .card {
-        background-color: rgba(17, 17, 17, 0.6);
-        backdrop-filter: blur(6px);
+        background-color: #2c2c2c;
         padding: 15px;
         border-radius: 12px;
         margin-bottom: 12px;
-        box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
+        box-shadow: 2px 2px 8px rgba(0,0,0,0.5);
         transition: transform 0.2s;
-        color: #f5f5f5;
-        animation: pulseCard 3s infinite;
+        color: #f0f0f0;
     }
-
-    @keyframes pulseCard {
-        0% { box-shadow: 0 0 10px rgba(255,255,255,0.1); }
-        50% { box-shadow: 0 0 20px rgba(255,255,255,0.3); }
-        100% { box-shadow: 0 0 10px rgba(255,255,255,0.1); }
+    .card:hover {
+        transform: scale(1.02);
     }
 
     /* Botão de remover estilizado */
@@ -62,18 +52,6 @@ st.markdown(
     }
     .remove-button:hover {
         transform: scale(1.3);
-    }
-
-    /* Sidebar escura */
-    [data-testid="stSidebar"] {
-        background-color: #000000;
-        color: #f5f5f5;
-    }
-    [data-testid="stSidebar"] h1,
-    [data-testid="stSidebar"] h2,
-    [data-testid="stSidebar"] h3,
-    [data-testid="stSidebar"] p {
-        color: #f5f5f5;
     }
     </style>
     """,
