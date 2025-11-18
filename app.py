@@ -17,15 +17,20 @@ st.markdown(
     /* Título animado */
 .titulo {
     text-align: center;
-    color: #FFDD55;
     font-family: "Comic Sans MS", cursive;
     font-size: 50px;
-    animation: glow 2s ease-in-out infinite alternate;
+    font-weight: bold;
+    background: linear-gradient(270deg, red, orange, yellow, green, cyan, blue, violet);
+    background-size: 1400% 1400%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rgbShift 8s ease infinite;
 }
 
-@keyframes glow {
-    from { text-shadow: 0 0 10px #ffdd55; }
-    to { text-shadow: 0 0 20px #ffaa33; }
+@keyframes rgbShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
     /* Card das avaliações */
